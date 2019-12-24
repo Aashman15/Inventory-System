@@ -1,7 +1,11 @@
 package com.inventorysystem.service;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.inventorysystem.database.Db;
 import com.inventorysysystem.model.Cashier;
@@ -37,6 +41,34 @@ public class CashierDaoImpl implements CashierDao {
 			e.getMessage();
 		}
 		return false;
+	}
+
+	@Override
+	public List<Cashier> viewAllCashiers() {
+		
+		List<Cashier> clist = new ArrayList<Cashier>();
+		String sql = "select * from cashiers";
+		try {
+			
+			Statement stm = con.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			while(rs.next()) {
+				Cashier cashier = new Cashier();
+				cashier.setCashierId(rs.getInt("Id"));
+				cashier.setCashierFirstName(rs.getString("FirstName"));
+				cashier.setCashierLastName(rs.getString("LastName"));
+				cashier.setCashierAdress(rs.getString("Adress"));
+                cashier.setCashierNumber(rs.getString("Number"));
+                cashier.setCashierEmail(rs.getString("Email"));
+                cashier.setCashierPassword(rs.getString("Password"));
+                cashier.setCashierGender(rs.getString("Gender"));
+                clist.add(cashier);
+			}
+		} catch (SQLException e) {
+			e.getMessage();
+		}
+		return clist;
+		
 	}
 
 }

@@ -17,6 +17,7 @@ import java.awt.Image;
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -62,7 +63,7 @@ public class AdminHomeCashierPg extends JFrame {
 	 */
 	public AdminHomeCashierPg() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1366, 735);
+		setBounds(0, 0, 1366, 735);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -222,13 +223,14 @@ public class AdminHomeCashierPg extends JFrame {
 		btnNewButton_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				CashierDao cdao = new CashierDaoImpl();
 				Cashier cashier = new Cashier();
+				CashierDao cdao = new CashierDaoImpl();
 				if (idTxt.getText().isEmpty()) {
 					cashier.setCashierId(0);
 				} else {
 					cashier.setCashierId(Integer.parseInt(idTxt.getText()));
 				}
+
 				cashier.setCashierFirstName(fnameTxt.getText());
 				cashier.setCashierLastName(lnameTxt.getText());
 				cashier.setCashierAdress(adresstxt.getText());
@@ -238,25 +240,20 @@ public class AdminHomeCashierPg extends JFrame {
 
 				if (malerdbtn.isSelected() == false && femalerdbtn.isSelected() == false) {
 					JOptionPane.showMessageDialog(null, "Select Gender");
-				}
-				if (malerdbtn.isSelected()) {
+				} else if (malerdbtn.isSelected()) {
 					cashier.setCashierGender("Male");
-				} 
-			    if (malerdbtn.isSelected() && femalerdbtn.isSelected()) {
-					JOptionPane.showMessageDialog(null, "select only one gender");
-				}
-			    if (femalerdbtn.isSelected()) {
+				} else {
 					cashier.setCashierGender("Female");
 				}
 				if (fnameTxt.getText().isEmpty() || idTxt.getText().isEmpty() || lnameTxt.getText().isEmpty()
 						|| adresstxt.getText().isEmpty() || numberTxt.getText().isEmpty()
-						|| emailTxt.getText().isEmpty() || passwordField.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Fill all the boxes!!!");
-				} else if (cdao.addCashier(cashier)) {
-					JOptionPane.showMessageDialog(null, "Cashier added!!!");
+						|| emailTxt.getText().isEmpty() || passwordField.getText().isEmpty()
+						|| cashier.getCashierGender().equals(null)) {
+					JOptionPane.showMessageDialog(null, "Check all the boxes and circle");
 				} else {
-					JOptionPane.showMessageDialog(null,
-							"Cashier not added due to some reasons!!! Make sure you entered valid values!!!Try Again!!!");
+					cdao.addCashier(cashier);
+					JOptionPane.showMessageDialog(null, "Cashier added!!!");
+					displayCashierDetails();
 				}
 			}
 		});
@@ -296,7 +293,7 @@ public class AdminHomeCashierPg extends JFrame {
 
 		table = new JTable();
 		table.setModel(new DefaultTableModel(new Object[][] {},
-				new String[] { "Id", "First Name", "Last Name", "Email", "Password", "Number" }));
+				new String[] { "Id", "First Name", "Last Name", "Adress", "Number", "Email", "Password", "Gender" }));
 		scrollPane.setViewportView(table);
 
 		JButton btnNewButton_7 = new JButton("");
@@ -315,5 +312,19 @@ public class AdminHomeCashierPg extends JFrame {
 		Border emptyBorderlo = BorderFactory.createEmptyBorder();
 		btnNewButton_7.setBorder(emptyBorderlo);
 		contentPane.add(btnNewButton_7);
+
+		displayCashierDetails();
+	}
+
+	private void displayCashierDetails() {
+		CashierDao cdao = new CashierDaoImpl();
+		List<Cashier> clist = cdao.viewAllCashiers();
+		DefaultTableModel mymodel = (DefaultTableModel) table.getModel();
+		mymodel.setRowCount(0);
+		for (Cashier c : clist) {
+			mymodel.addRow(new Object[] { c.getCashierId(), c.getCashierFirstName(), c.getCashierLastName(),
+					c.getCashierAdress(), c.getCashierNumber(), c.getCashierEmail(), c.getCashierPassword(),
+					c.getCashierGender() });
+		}
 	}
 }

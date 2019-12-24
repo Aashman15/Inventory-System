@@ -57,5 +57,13 @@ public class Cashier {
 	public void setCashierGender(String cashierGender) {
 		this.cashierGender = cashierGender;
 	}
+	@Override
+	public String toString() {
+		return "Cashier [cashierId=" + cashierId + ", cashierFirstName=" + cashierFirstName + ", cashierLastName="
+				+ cashierLastName + ", cashierAdress=" + cashierAdress + ", cashierNumber=" + cashierNumber
+				+ ", cashierEmail=" + cashierEmail + ", cashierPassword=" + cashierPassword + ", cashierGender="
+				+ cashierGender + "]";
+	}
     
+	
 }
