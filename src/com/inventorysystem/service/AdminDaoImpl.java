@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
-import com.inventorysystem.app.AdminHome;
+import com.inventorysystem.app.AdminHomeCashierPg;
 import com.inventorysystem.database.Db;
 import com.inventorysysystem.model.Admin;
 import com.mysql.jdbc.PreparedStatement;
@@ -55,7 +55,7 @@ public class AdminDaoImpl implements AdminDao {
 			ResultSet rs = stm.executeQuery(sql);
 			while(rs.next()) {
 				if(username.equals(rs.getString(5)) && password.equals(rs.getString(6))) {
-					AdminHome ahome = new AdminHome();
+					AdminHomeCashierPg ahome = new AdminHomeCashierPg();
 					ahome.setVisible(true);
 				    return true;
 				}
