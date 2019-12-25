@@ -98,11 +98,12 @@ public class LogInForm extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				AdminDao adao = new AdminDaoImpl();
+				
 				String username = usernametxt.getText();
 				String password = passwordField.getText();
 				
 				if(username.isEmpty() && password.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "What the hell!!! where is your username and password to login.");
+					JOptionPane.showMessageDialog(null, " where is your username and password to login.");
 				}
 				else if(password.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Enter password");
@@ -110,6 +111,9 @@ public class LogInForm extends JFrame {
 				else if(username.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Enter username!!!");
 				}
+				
+				
+				
 				else if(adao.adminExist(username, password)) {
 					JOptionPane.showMessageDialog(null, "Welcome");
 					dispose();

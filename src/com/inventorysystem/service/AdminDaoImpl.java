@@ -53,6 +53,7 @@ public class AdminDaoImpl implements AdminDao {
         try {
 			Statement stm = con.createStatement();
 			ResultSet rs = stm.executeQuery(sql);
+			
 			while(rs.next()) {
 				if(username.equals(rs.getString(5)) && password.equals(rs.getString(6))) {
 					AdminHomeCashierPg ahome = new AdminHomeCashierPg();
@@ -60,7 +61,6 @@ public class AdminDaoImpl implements AdminDao {
 				    return true;
 				}
 			}
-			
 			} catch (SQLException e) {
 			e.getMessage();
 		}

@@ -30,7 +30,7 @@ import com.inventorysystem.service.CashierDao;
 import com.inventorysystem.service.CashierDaoImpl;
 import com.inventorysysystem.model.Cashier;
 
-public class AdminHomeCashierPg extends JFrame {
+public class CashierUpdateForm extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField idTxt;
@@ -40,7 +40,9 @@ public class AdminHomeCashierPg extends JFrame {
 	private JTextField numberTxt;
 	private JPasswordField passwordField;
 	private JTextField emailTxt;
-	private JTable table;
+	private JRadioButton malerdbtn;
+	private JRadioButton femalerdbtn;
+	int uid = 0;
 
 	/**
 	 * Launch the application.
@@ -49,7 +51,7 @@ public class AdminHomeCashierPg extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AdminHomeCashierPg frame = new AdminHomeCashierPg();
+					CashierUpdateForm frame = new CashierUpdateForm();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -61,9 +63,9 @@ public class AdminHomeCashierPg extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AdminHomeCashierPg() {
+	public CashierUpdateForm() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 1366, 735);
+		setBounds(0, 0, 852, 735);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -76,63 +78,18 @@ public class AdminHomeCashierPg extends JFrame {
 
 		labelforqbl.setBounds(105, 11, 206, 57);
 		contentPane.add(labelforqbl);
-
-		JButton btnNewButton = new JButton("Cashier");
 		Image cashierLogo = new ImageIcon(this.getClass().getResource("/CASHIER-icon.png")).getImage();
-		btnNewButton.setIcon(new ImageIcon(cashierLogo));
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 20));
-		btnNewButton.setBackground(Color.WHITE);
-		btnNewButton.setBounds(496, 11, 163, 57);
 		Border emptyBorder = BorderFactory.createEmptyBorder();
-		btnNewButton.setBorder(emptyBorder);
-		contentPane.add(btnNewButton);
-
-		JButton btnNewButton_1 = new JButton("Transaction");
 		Image transactionLogo = new ImageIcon(this.getClass().getResource("/transaction.png")).getImage();
-		btnNewButton_1.setIcon(new ImageIcon(transactionLogo));
-
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton_1.setBackground(Color.WHITE);
-		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 20));
-		btnNewButton_1.setBounds(717, 11, 163, 57);
 		Border emptyBorder2 = BorderFactory.createEmptyBorder();
-		btnNewButton_1.setBorder(emptyBorder2);
-		contentPane.add(btnNewButton_1);
-
-		JButton btnNewButton_2 = new JButton("Stock");
 		Image stockLogo = new ImageIcon(this.getClass().getResource("/stock.png")).getImage();
-		btnNewButton_2.setIcon(new ImageIcon(stockLogo));
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton_2.setBackground(Color.WHITE);
-		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 20));
-		btnNewButton_2.setBounds(932, 11, 163, 57);
 		Border emptyBorder3 = BorderFactory.createEmptyBorder();
-		btnNewButton_2.setBorder(emptyBorder3);
-		contentPane.add(btnNewButton_2);
-
-		JButton btnNewButton_3 = new JButton("Sales");
 		Image salesLogo = new ImageIcon(this.getClass().getResource("/sales.png")).getImage();
-		btnNewButton_3.setIcon(new ImageIcon(salesLogo));
-		btnNewButton_3.setBackground(Color.WHITE);
-		btnNewButton_3.setFont(new Font("Tahoma", Font.BOLD, 20));
-		btnNewButton_3.setBounds(1122, 11, 134, 57);
 		Border emptyBorder4 = BorderFactory.createEmptyBorder();
-		btnNewButton_3.setBorder(emptyBorder4);
-		contentPane.add(btnNewButton_3);
 
-		JLabel lblNewLabel = new JLabel("Add Cashier Details!!!");
+		JLabel lblNewLabel = new JLabel("Update by filling boxes again!!!");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblNewLabel.setBounds(436, 79, 223, 22);
+		lblNewLabel.setBounds(369, 59, 304, 22);
 		contentPane.add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("Cashier Id");
@@ -201,80 +158,46 @@ public class AdminHomeCashierPg extends JFrame {
 		btnNewButton_5.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnNewButton_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (table.getSelectedRow() < 0) {
-					JOptionPane.showMessageDialog(null, "Select any row!!!");
-					return;
+				
+				Cashier c = new Cashier();
+				c.setCashierFirstName(fnameTxt.getText());
+				c.setCashierLastName(lnameTxt.getText());
+				c.setCashierAdress(adresstxt.getText());
+				c.setCashierNumber(numberTxt.getText());
+				c.setCashierEmail(emailTxt.getText());
+				c.setCashierPassword(passwordField.getText());
+				if(malerdbtn.isSelected()) {
+					c.setCashierGender("male");
+				}else {
+					c.setCashierGender("female");
 				}
-				int row = table.getSelectedRow();
-				int id = (int) table.getModel().getValueAt(row, 0);
-				CashierUpdateForm cuf = new CashierUpdateForm();
-				cuf.setData(id);
-				cuf.setVisible(true);
+				c.setCashierId(Integer.parseInt(idTxt.getText()));
+				
+				int row = new AdminHomeCashierPg().getTable().getSelectedRow();
+				int id = (int) new AdminHomeCashierPg().getTable().getModel().getValueAt(row, 0);
+				if(new CashierDaoImpl().updateCashierById(c,id)) {
+					JOptionPane.showMessageDialog(null, "Successfully updated");
+				}else {
+					JOptionPane.showMessageDialog(null, "Something went wrong ! please try again");
+				}
+				new AdminHomeCashierPg().setVisible(true);
 				dispose();
 			}
 		});
 		btnNewButton_5.setBackground(Color.BLUE);
-		btnNewButton_5.setBounds(380, 610, 142, 44);
+		btnNewButton_5.setBounds(436, 609, 166, 44);
 		contentPane.add(btnNewButton_5);
 
-		JRadioButton malerdbtn = new JRadioButton("Male");
+		malerdbtn = new JRadioButton("Male");
 		malerdbtn.setBackground(Color.WHITE);
 		malerdbtn.setBounds(407, 539, 109, 23);
 		contentPane.add(malerdbtn);
 
-		JRadioButton femalerdbtn = new JRadioButton("Female");
+		femalerdbtn = new JRadioButton("Female");
 		femalerdbtn.setBackground(Color.WHITE);
 		femalerdbtn.setBounds(518, 539, 109, 23);
 		contentPane.add(femalerdbtn);
-
-		JButton btnNewButton_6 = new JButton("Add");
 		Image addLogo = new ImageIcon(this.getClass().getResource("/add.png")).getImage();
-		btnNewButton_6.setIcon(new ImageIcon(addLogo));
-		btnNewButton_6.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				Cashier cashier = new Cashier();
-				CashierDao cdao = new CashierDaoImpl();
-				if (idTxt.getText().isEmpty()) {
-					cashier.setCashierId(0);
-				} else {
-					cashier.setCashierId(Integer.parseInt(idTxt.getText()));
-				}
-
-				cashier.setCashierFirstName(fnameTxt.getText());
-				cashier.setCashierLastName(lnameTxt.getText());
-				cashier.setCashierAdress(adresstxt.getText());
-				cashier.setCashierNumber(numberTxt.getText());
-				cashier.setCashierEmail(emailTxt.getText());
-				cashier.setCashierPassword(passwordField.getText());
-
-				if (malerdbtn.isSelected() == false && femalerdbtn.isSelected() == false) {
-					JOptionPane.showMessageDialog(null, "Select Gender");
-					return;
-				} else if (malerdbtn.isSelected() && femalerdbtn.isSelected()) {
-					JOptionPane.showMessageDialog(null, "Select only one gender");
-					return;
-				} else if (malerdbtn.isSelected()) {
-					cashier.setCashierGender("Male");
-				} else {
-					cashier.setCashierGender("Female");
-				}
-				if (fnameTxt.getText().isEmpty() || idTxt.getText().isEmpty() || lnameTxt.getText().isEmpty()
-						|| adresstxt.getText().isEmpty() || numberTxt.getText().isEmpty()
-						|| emailTxt.getText().isEmpty() || passwordField.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Check all the boxes and circle");
-				} else {
-					cdao.addCashier(cashier);
-					JOptionPane.showMessageDialog(null, "Cashier added!!!");
-					displayCashierDetails();
-				}
-			}
-		});
-		btnNewButton_6.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnNewButton_6.setForeground(Color.WHITE);
-		btnNewButton_6.setBackground(Color.GREEN);
-		btnNewButton_6.setBounds(258, 610, 112, 44);
-		contentPane.add(btnNewButton_6);
 
 		emailTxt = new JTextField();
 		emailTxt.setBounds(407, 408, 252, 35);
@@ -290,43 +213,7 @@ public class AdminHomeCashierPg extends JFrame {
 		lblNewLabel_8.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblNewLabel_8.setBounds(285, 534, 106, 28);
 		contentPane.add(lblNewLabel_8);
-
-		JButton btnNewButton_4 = new JButton("Delete");
-		btnNewButton_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				if(table.getSelectedRow()<0) {
-					JOptionPane.showMessageDialog(null, "Select any row to delete");
-					return;
-				}
-				
-				int row = table.getSelectedRow();
-				int id = (int) table.getModel().getValueAt(row, 0);
-				if(new CashierDaoImpl().deleteCashier(id)) {
-					JOptionPane.showMessageDialog(null, "Deleted");
-					displayCashierDetails();
-				}else {
-					JOptionPane.showMessageDialog(null, "Not deleted");
-				}
-				
-			}
-		});
 		Image deleteLogo = new ImageIcon(this.getClass().getResource("/delete.png")).getImage();
-		btnNewButton_4.setIcon(new ImageIcon(deleteLogo));
-		btnNewButton_4.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnNewButton_4.setForeground(Color.WHITE);
-		btnNewButton_4.setBackground(Color.RED);
-		btnNewButton_4.setBounds(532, 610, 134, 44);
-		contentPane.add(btnNewButton_4);
-
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(700, 84, 556, 612);
-		contentPane.add(scrollPane);
-
-		table = new JTable();
-		table.setModel(new DefaultTableModel(new Object[][] {},
-				new String[] { "Id", "First Name", "Last Name", "Adress", "Number", "Email", "Password", "Gender" }));
-		scrollPane.setViewportView(table);
 
 		JButton btnNewButton_7 = new JButton("");
 		btnNewButton_7.setToolTipText("Log Out");
@@ -345,26 +232,24 @@ public class AdminHomeCashierPg extends JFrame {
 		btnNewButton_7.setBorder(emptyBorderlo);
 		contentPane.add(btnNewButton_7);
 
-		displayCashierDetails();
 	}
 
-	private void displayCashierDetails() {
+	public void setData(int id) {
 		CashierDao cdao = new CashierDaoImpl();
-		List<Cashier> clist = cdao.viewAllCashiers();
-		DefaultTableModel mymodel = (DefaultTableModel) table.getModel();
-		mymodel.setRowCount(0);
-		for (Cashier c : clist) {
-			mymodel.addRow(new Object[] { c.getCashierId(), c.getCashierFirstName(), c.getCashierLastName(),
-					c.getCashierAdress(), c.getCashierNumber(), c.getCashierEmail(), c.getCashierPassword(),
-					c.getCashierGender()});
+		Cashier c = cdao.getCashierDetailsById(id);
+		idTxt.setText(String.valueOf(c.getCashierId()));
+		fnameTxt.setText(c.getCashierFirstName());
+		lnameTxt.setText(c.getCashierLastName());
+		adresstxt.setText(c.getCashierAdress());
+		numberTxt.setText(c.getCashierNumber());
+		emailTxt.setText(c.getCashierEmail());
+		passwordField.setText(c.getCashierPassword());
+		if (c.getCashierGender().equalsIgnoreCase("male")) {
+			malerdbtn.setSelected(true);
+		} else {
+			femalerdbtn.setSelected(true);
 		}
+
 	}
 
-	public JTable getTable() {
-		return table;
-	}
-
-	public void setTable(JTable table) {
-		this.table = table;
-	}
 }
