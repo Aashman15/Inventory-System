@@ -13,7 +13,7 @@ public interface CashierDao {
 
 	boolean cashierExist(String email, String password);
 
-	boolean updateCashierById(Cashier c, int id);
+	boolean updateCashierById(Cashier c);
 
 	boolean deleteCashier(int id);
 }

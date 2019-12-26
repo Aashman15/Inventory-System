@@ -78,14 +78,6 @@ public class CashierUpdateForm extends JFrame {
 
 		labelforqbl.setBounds(105, 11, 206, 57);
 		contentPane.add(labelforqbl);
-		Image cashierLogo = new ImageIcon(this.getClass().getResource("/CASHIER-icon.png")).getImage();
-		Border emptyBorder = BorderFactory.createEmptyBorder();
-		Image transactionLogo = new ImageIcon(this.getClass().getResource("/transaction.png")).getImage();
-		Border emptyBorder2 = BorderFactory.createEmptyBorder();
-		Image stockLogo = new ImageIcon(this.getClass().getResource("/stock.png")).getImage();
-		Border emptyBorder3 = BorderFactory.createEmptyBorder();
-		Image salesLogo = new ImageIcon(this.getClass().getResource("/sales.png")).getImage();
-		Border emptyBorder4 = BorderFactory.createEmptyBorder();
 
 		JLabel lblNewLabel = new JLabel("Update by filling boxes again!!!");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -172,10 +164,7 @@ public class CashierUpdateForm extends JFrame {
 					c.setCashierGender("female");
 				}
 				c.setCashierId(Integer.parseInt(idTxt.getText()));
-				
-				int row = new AdminHomeCashierPg().getTable().getSelectedRow();
-				int id = (int) new AdminHomeCashierPg().getTable().getModel().getValueAt(row, 0);
-				if(new CashierDaoImpl().updateCashierById(c,id)) {
+				if(new CashierDaoImpl().updateCashierById(c)) {
 					JOptionPane.showMessageDialog(null, "Successfully updated");
 				}else {
 					JOptionPane.showMessageDialog(null, "Something went wrong ! please try again");

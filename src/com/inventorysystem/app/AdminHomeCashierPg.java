@@ -111,6 +111,8 @@ public class AdminHomeCashierPg extends JFrame {
 		btnNewButton_2.setIcon(new ImageIcon(stockLogo));
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Stock stockPage = new Stock();
+				stockPage.setVisible(true);
 			}
 		});
 		btnNewButton_2.setBackground(Color.WHITE);

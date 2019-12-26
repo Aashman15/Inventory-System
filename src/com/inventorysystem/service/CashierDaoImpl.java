@@ -9,7 +9,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import com.inventorysystem.app.CashierHome;
+import com.inventorysystem.app.CashierHomeCreateBillPg;
 import com.inventorysystem.app.CashierUpdateForm;
 import com.inventorysystem.app.LogInFormForCashier;
 import com.inventorysystem.database.Db;
@@ -103,19 +103,19 @@ public class CashierDaoImpl implements CashierDao {
 	}
 
 	@Override
-	public boolean updateCashierById(Cashier c, int id) {
-		String sql = "update cashiers set Id=?,FirstName=?,LastName=?,Adress=?,Number=?,Email=?,Password=?,Gender=? where Id =  "
-				+ id;
+	public boolean updateCashierById(Cashier c) {
+		String sql = "update cashiers set FirstName=?,LastName=?,Adress=?,Number=?,Email=?,Password=?,Gender=? where Id = ? ";
+				 
 		try {
 			PreparedStatement pstm = (PreparedStatement) con.prepareStatement(sql);
-			pstm.setInt(1, c.getCashierId());
-			pstm.setString(2, c.getCashierFirstName());
-			pstm.setString(3, c.getCashierLastName());
-			pstm.setString(4, c.getCashierAdress());
-			pstm.setString(5, c.getCashierNumber());
-			pstm.setString(6, c.getCashierEmail());
-			pstm.setString(7, c.getCashierPassword());
-			pstm.setString(8, c.getCashierGender());
+			pstm.setInt(8, c.getCashierId());
+			pstm.setString(1, c.getCashierFirstName());
+			pstm.setString(2, c.getCashierLastName());
+			pstm.setString(3, c.getCashierAdress());
+			pstm.setString(4, c.getCashierNumber());
+			pstm.setString(5, c.getCashierEmail());
+			pstm.setString(6, c.getCashierPassword());
+			pstm.setString(7, c.getCashierGender());
 			pstm.execute();
 			return true;
 		} catch (SQLException e) {

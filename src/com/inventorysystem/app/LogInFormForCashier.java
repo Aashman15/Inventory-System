@@ -103,7 +103,7 @@ public class LogInFormForCashier extends JFrame {
 				String email = emailtxt.getText();
 				String password = passwordField.getText();
 				if (cdao.cashierExist(email, password)) {
-					new CashierHome().setVisible(true);
+					new CashierHomeCreateBillPg().setVisible(true);
 					dispose();
 				} else {
 					JOptionPane.showMessageDialog(null, "You are not welcome");
