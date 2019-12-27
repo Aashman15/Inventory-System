@@ -147,7 +147,7 @@ public class CashierUpdateForm extends JFrame {
 		Image updateLogo = new ImageIcon(this.getClass().getResource("/update.png")).getImage();
 		btnNewButton_5.setIcon(new ImageIcon(updateLogo));
 		btnNewButton_5.setForeground(Color.WHITE);
-		btnNewButton_5.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewButton_5.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnNewButton_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -174,7 +174,7 @@ public class CashierUpdateForm extends JFrame {
 			}
 		});
 		btnNewButton_5.setBackground(Color.BLUE);
-		btnNewButton_5.setBounds(436, 609, 166, 44);
+		btnNewButton_5.setBounds(463, 609, 196, 44);
 		contentPane.add(btnNewButton_5);
 
 		malerdbtn = new JRadioButton("Male");
@@ -220,6 +220,18 @@ public class CashierUpdateForm extends JFrame {
 		Border emptyBorderlo = BorderFactory.createEmptyBorder();
 		btnNewButton_7.setBorder(emptyBorderlo);
 		contentPane.add(btnNewButton_7);
+		
+		JButton btnNewButton = new JButton("Cancel");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new AdminHomeCashierPg().setVisible(true);
+			}
+		});
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 20));
+		btnNewButton.setBackground(Color.RED);
+		btnNewButton.setForeground(Color.WHITE);
+		btnNewButton.setBounds(322, 609, 131, 44);
+		contentPane.add(btnNewButton);
 
 	}
 
