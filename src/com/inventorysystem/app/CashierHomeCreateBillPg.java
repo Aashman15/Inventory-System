@@ -2,6 +2,7 @@ package com.inventorysystem.app;
 
 import java.awt.EventQueue;
 
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -27,7 +28,6 @@ import com.inventorysystem.service.BillDao;
 import com.inventorysysystem.model.Bill;
 import com.inventorysysystem.model.Goods;
 import com.toedter.calendar.JDateChooser;
-import java.sql.Date;
 
 public class CashierHomeCreateBillPg extends JFrame {
 
@@ -114,6 +114,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				new SearchBill().setVisible(true); 
 			}
 		});
 		btnNewButton_1.setBackground(Color.WHITE);
@@ -162,7 +163,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 				dispose();
 			}
 		});
-		btnNewButton_7.setBounds(1266, 661, 34, 35);
+		btnNewButton_7.setBounds(1266, 632, 34, 35);
 		Border emptyBorderlo = BorderFactory.createEmptyBorder();
 		btnNewButton_7.setBorder(emptyBorderlo);
 		contentPane.add(btnNewButton_7);
@@ -450,6 +451,14 @@ public class CashierHomeCreateBillPg extends JFrame {
 	private JButton getBtnNewButton_6() {
 		if (btnNewButton_6 == null) {
 			btnNewButton_6 = new JButton("Remove");
+			btnNewButton_6.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					 if(table.getSelectedRow()<0) {
+						 JOptionPane.showMessageDialog(null, "Select any row!!!");
+					 }
+				}
+			});
 			Image salesLogo = new ImageIcon(this.getClass().getResource("/delete.png")).getImage();
 			btnNewButton_6.setIcon(new ImageIcon(salesLogo));
 			Border emptyBorderlo = BorderFactory.createEmptyBorder();
@@ -484,8 +493,6 @@ public class CashierHomeCreateBillPg extends JFrame {
 					bill.setBillNumber(Integer.parseInt(billNoTxt.getText()));
 					bill.setCustomerName(customerNameTxt.getText());
 					String date = dateChooser.getDate().toString();
-					// bill.setDate(dateChooser.getDate()); because of java.util.date and
-					// java.util.sql
 					bill.setDate(date);
 					bill.setTotalAmount(Double.parseDouble(totalTxt.getText()));
 					BillDao bdao = new BillDaoImpl();
