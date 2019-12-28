@@ -27,6 +27,7 @@ import com.inventorysystem.service.BillDao;
 import com.inventorysysystem.model.Bill;
 import com.inventorysysystem.model.Goods;
 import com.toedter.calendar.JDateChooser;
+import java.sql.Date;
 
 public class CashierHomeCreateBillPg extends JFrame {
 
@@ -44,7 +45,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 	private JTextField productNameTxt;
 	private JTextField productMrpTxt;
 	private JTextField productQuantityTxt;
-	private JTextField priceTxt;
+	private JTextField discountTxt;
 	private JTextField billNoTxt;
 	private JButton btnNewButton_4;
 	private JScrollPane scrollPane;
@@ -127,9 +128,9 @@ public class CashierHomeCreateBillPg extends JFrame {
 		btnNewButton_2.setIcon(new ImageIcon(stockLogo));
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				new ProductInformation().setVisible(true);
-				
+
 			}
 		});
 		btnNewButton_2.setBackground(Color.WHITE);
@@ -148,7 +149,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 		Border emptyBorder4 = BorderFactory.createEmptyBorder();
 		btnNewButton_3.setBorder(emptyBorder4);
 		contentPane.add(btnNewButton_3);
-		
+
 		JButton btnNewButton_7 = new JButton("");
 		btnNewButton_7.setToolTipText("Log Out");
 		btnNewButton_7.setBackground(Color.WHITE);
@@ -178,7 +179,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 		contentPane.add(getProductNameTxt());
 		contentPane.add(getProductMrpTxt());
 		contentPane.add(getProductQuantityTxt());
-		contentPane.add(getPriceTxt());
+		contentPane.add(getDiscountTxt());
 		contentPane.add(getBillNoTxt());
 		contentPane.add(getBtnNewButton_4());
 		contentPane.add(getScrollPane());
@@ -191,6 +192,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 		contentPane.add(getBtnNewButton_8());
 
 	}
+
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
 			lblNewLabel = new JLabel("Create New Bill Here !!!");
@@ -199,6 +201,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 		}
 		return lblNewLabel;
 	}
+
 	private JLabel getLblNewLabel_1() {
 		if (lblNewLabel_1 == null) {
 			lblNewLabel_1 = new JLabel("Customer : ");
@@ -207,6 +210,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 		}
 		return lblNewLabel_1;
 	}
+
 	private JTextField getCustomerNameTxt() {
 		if (customerNameTxt == null) {
 			customerNameTxt = new JTextField();
@@ -215,6 +219,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 		}
 		return customerNameTxt;
 	}
+
 	private JLabel getLblNewLabel_2() {
 		if (lblNewLabel_2 == null) {
 			lblNewLabel_2 = new JLabel("Product Id : ");
@@ -223,6 +228,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 		}
 		return lblNewLabel_2;
 	}
+
 	private JTextField getProductIdTxt() {
 		if (productIdTxt == null) {
 			productIdTxt = new JTextField();
@@ -231,6 +237,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 		}
 		return productIdTxt;
 	}
+
 	private JLabel getLblNewLabel_3() {
 		if (lblNewLabel_3 == null) {
 			lblNewLabel_3 = new JLabel("Prod. Name :");
@@ -239,6 +246,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 		}
 		return lblNewLabel_3;
 	}
+
 	private JLabel getLblNewLabel_4() {
 		if (lblNewLabel_4 == null) {
 			lblNewLabel_4 = new JLabel("MRP : ");
@@ -247,6 +255,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 		}
 		return lblNewLabel_4;
 	}
+
 	private JLabel getLblNewLabel_5() {
 		if (lblNewLabel_5 == null) {
 			lblNewLabel_5 = new JLabel("Quantity : ");
@@ -255,14 +264,16 @@ public class CashierHomeCreateBillPg extends JFrame {
 		}
 		return lblNewLabel_5;
 	}
+
 	private JLabel getLblNewLabel_6() {
 		if (lblNewLabel_6 == null) {
-			lblNewLabel_6 = new JLabel("Price/one");
-			lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			lblNewLabel_6.setBounds(267, 498, 90, 25);
+			lblNewLabel_6 = new JLabel("Discount (%) :");
+			lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 15));
+			lblNewLabel_6.setBounds(267, 498, 102, 25);
 		}
 		return lblNewLabel_6;
 	}
+
 	private JLabel getLblNewLabel_7() {
 		if (lblNewLabel_7 == null) {
 			lblNewLabel_7 = new JLabel("Bill No : ");
@@ -271,6 +282,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 		}
 		return lblNewLabel_7;
 	}
+
 	private JTextField getProductNameTxt() {
 		if (productNameTxt == null) {
 			productNameTxt = new JTextField();
@@ -279,6 +291,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 		}
 		return productNameTxt;
 	}
+
 	private JTextField getProductMrpTxt() {
 		if (productMrpTxt == null) {
 			productMrpTxt = new JTextField();
@@ -287,6 +300,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 		}
 		return productMrpTxt;
 	}
+
 	private JTextField getProductQuantityTxt() {
 		if (productQuantityTxt == null) {
 			productQuantityTxt = new JTextField();
@@ -295,14 +309,16 @@ public class CashierHomeCreateBillPg extends JFrame {
 		}
 		return productQuantityTxt;
 	}
-	private JTextField getPriceTxt() {
-		if (priceTxt == null) {
-			priceTxt = new JTextField();
-			priceTxt.setBounds(370, 488, 191, 35);
-			priceTxt.setColumns(10);
+
+	private JTextField getDiscountTxt() {
+		if (discountTxt == null) {
+			discountTxt = new JTextField();
+			discountTxt.setBounds(370, 488, 191, 35);
+			discountTxt.setColumns(10);
 		}
-		return priceTxt;
+		return discountTxt;
 	}
+
 	private JTextField getBillNoTxt() {
 		if (billNoTxt == null) {
 			billNoTxt = new JTextField();
@@ -311,6 +327,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 		}
 		return billNoTxt;
 	}
+
 	private JButton getBtnNewButton_4() {
 		if (btnNewButton_4 == null) {
 			btnNewButton_4 = new JButton("Add");
@@ -321,13 +338,34 @@ public class CashierHomeCreateBillPg extends JFrame {
 			Border emptyBorderlo = BorderFactory.createEmptyBorder();
 			btnNewButton_4.setBorder(emptyBorderlo);
 			btnNewButton_4.addActionListener(new ActionListener() {
+				int count = 0;
+
 				public void actionPerformed(ActionEvent e) {
+
 					Goods goods = new Goods();
 					goods.setGoodsQuantity(Integer.parseInt(productQuantityTxt.getText()));
 					goods.setGoodsName(productNameTxt.getText());
 					goods.setGoodsMrp(Double.parseDouble(productMrpTxt.getText()));
-					goods.setGoodsPrice(Double.parseDouble(priceTxt.getText()));
-				    displayData(goods);
+
+					goods.setDiscount(Integer.parseInt(discountTxt.getText()));
+					
+					double mrp = Double.parseDouble(productMrpTxt.getText());
+					double discountPercent = Integer.parseInt(discountTxt.getText());
+					double priceAfterDiscount = mrp - (discountPercent/100) * mrp;
+					double finalPrice = priceAfterDiscount * Integer.parseInt(productQuantityTxt.getText());
+					
+					goods.setGoodsPrice(finalPrice);
+					displayData(goods);
+
+					count++;
+
+					double totalAmount = 0;
+					for (int i = 0; i < count; i++) {
+						double total = (double) table.getModel().getValueAt(i, 3);
+						totalAmount = totalAmount + total;
+						String amount = Double.toString(totalAmount);
+						totalTxt.setText(amount);
+					}
 				}
 			});
 			btnNewButton_4.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -335,6 +373,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 		}
 		return btnNewButton_4;
 	}
+
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
@@ -343,6 +382,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 		}
 		return scrollPane;
 	}
+
 	private JLabel getLblNewLabel_8() {
 		if (lblNewLabel_8 == null) {
 			lblNewLabel_8 = new JLabel("Date : ");
@@ -351,6 +391,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 		}
 		return lblNewLabel_8;
 	}
+
 	private JDateChooser getDateChooser() {
 		if (dateChooser == null) {
 			dateChooser = new JDateChooser();
@@ -358,6 +399,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 		}
 		return dateChooser;
 	}
+
 	private JLabel getLblNewLabel_9() {
 		if (lblNewLabel_9 == null) {
 			lblNewLabel_9 = new JLabel("Total : ");
@@ -366,6 +408,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 		}
 		return lblNewLabel_9;
 	}
+
 	private JButton getBtnNewButton_5() {
 		if (btnNewButton_5 == null) {
 			btnNewButton_5 = new JButton("Print");
@@ -377,9 +420,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 			btnNewButton_5.setBorder(emptyBorder);
 			btnNewButton_5.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					JOptionPane.showMessageDialog(null, "Bill not saved yet!!!");
-					BillPrint bp = new BillPrint();
-					bp.setVisible(true);
+					JOptionPane.showMessageDialog(null, "Sorry printing is not available yet!");
 				}
 			});
 			btnNewButton_5.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -387,6 +428,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 		}
 		return btnNewButton_5;
 	}
+
 	private JTextField getTotalTxt() {
 		if (totalTxt == null) {
 			totalTxt = new JTextField();
@@ -395,19 +437,16 @@ public class CashierHomeCreateBillPg extends JFrame {
 		}
 		return totalTxt;
 	}
+
 	private JTable getTable() {
 		if (table == null) {
 			table = new JTable();
-			table.setModel(new DefaultTableModel(
-				new Object[][] {
-				},
-				new String[] {
-					"Quantity", "Name", "Mrp", "Price"
-				}
-			));
+			table.setModel(
+					new DefaultTableModel(new Object[][] {}, new String[] { "Quantity", "Name", "Mrp", "Price" }));
 		}
 		return table;
 	}
+
 	private JButton getBtnNewButton_6() {
 		if (btnNewButton_6 == null) {
 			btnNewButton_6 = new JButton("Remove");
@@ -422,14 +461,14 @@ public class CashierHomeCreateBillPg extends JFrame {
 		}
 		return btnNewButton_6;
 	}
-	
+
 	private void displayData(Goods goods) {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
-		model.addRow(new Object[] {
-			goods.getGoodsQuantity(),goods.getGoodsName(),goods.getGoodsMrp(),goods.getGoodsPrice()
-		});
-		
+		model.addRow(new Object[] { goods.getGoodsQuantity(), goods.getGoodsName(), goods.getGoodsMrp(),
+				goods.getGoodsPrice() });
+
 	}
+
 	private JButton getBtnNewButton_8() {
 		if (btnNewButton_8 == null) {
 			btnNewButton_8 = new JButton("");
@@ -441,17 +480,18 @@ public class CashierHomeCreateBillPg extends JFrame {
 			btnNewButton_8.setBorder(emptyBorderlo);
 			btnNewButton_8.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
 					Bill bill = new Bill();
 					bill.setBillNumber(Integer.parseInt(billNoTxt.getText()));
 					bill.setCustomerName(customerNameTxt.getText());
-					bill.setDate(dateChooser.getDate());
+					String date = dateChooser.getDate().toString();
+					// bill.setDate(dateChooser.getDate()); because of java.util.date and
+					// java.util.sql
+					bill.setDate(date);
 					bill.setTotalAmount(Double.parseDouble(totalTxt.getText()));
-					 BillDao bdao = new BillDaoImpl();
-					if(bdao.addBill(bill)) {
+					BillDao bdao = new BillDaoImpl();
+					if (bdao.addBill(bill)) {
 						JOptionPane.showMessageDialog(null, "Bill added to the list of bills.");
 					}
-					
 				}
 			});
 			btnNewButton_8.setBounds(633, 628, 89, 57);

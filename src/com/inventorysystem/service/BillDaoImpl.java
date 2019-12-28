@@ -1,11 +1,11 @@
 package com.inventorysystem.service;
 
-import java.sql.Date;
 import java.sql.SQLException;
 
 import com.inventorysystem.database.Db;
 import com.inventorysysystem.model.Bill;
 import com.mysql.jdbc.PreparedStatement;
+import java.sql.Date;
 
 public class BillDaoImpl implements BillDao{
 
@@ -17,7 +17,7 @@ public class BillDaoImpl implements BillDao{
 			pstm.setInt(1, bill.getBillNumber());
 			pstm.setString(2, bill.getCustomerName());
 			pstm.setDouble(3, bill.getTotalAmount());
-			pstm.setDate(4, (Date) bill.getDate());
+			pstm.setString(4, bill.getDate());
 			pstm.execute();
 			return true;
 		} catch (SQLException e) {

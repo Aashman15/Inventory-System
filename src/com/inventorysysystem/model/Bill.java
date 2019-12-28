@@ -1,12 +1,11 @@
 package com.inventorysysystem.model;
 
-import java.util.Date;
 
 public class Bill {
 	private int billNumber;
 	private String customerName;
 	private double totalAmount;
-	private Date date;
+	private String date;
 
 	public int getBillNumber() {
 		return billNumber;
@@ -32,12 +31,12 @@ public class Bill {
 		this.totalAmount = totalAmount;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setDate(String date2) {
+		this.date = date2;
 	}
 
 }

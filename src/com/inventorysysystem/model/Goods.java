@@ -5,6 +5,14 @@ public class Goods {
      private String goodsName;
      private double goodsMrp;
      private double goodsPrice;
+     private int discount;
+     
+	public int getDiscount() {
+		return discount;
+	}
+	public void setDiscount(int discount) {
+		this.discount = discount;
+	}
 	public int getGoodsQuantity() {
 		return goodsQuantity;
 	}
