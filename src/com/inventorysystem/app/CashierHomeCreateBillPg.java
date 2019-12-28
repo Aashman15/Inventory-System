@@ -22,6 +22,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import com.inventorysystem.service.BillDaoImpl;
+import com.inventorysystem.service.BillDao;
+import com.inventorysysystem.model.Bill;
 import com.inventorysysystem.model.Goods;
 import com.toedter.calendar.JDateChooser;
 
@@ -49,7 +52,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 	private JDateChooser dateChooser;
 	private JLabel lblNewLabel_9;
 	private JButton btnNewButton_5;
-	private JTextField textField_7;
+	private JTextField totalTxt;
 	private JTable table;
 	private JButton btnNewButton_6;
 	private JButton btnNewButton_8;
@@ -183,7 +186,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 		contentPane.add(getDateChooser());
 		contentPane.add(getLblNewLabel_9());
 		contentPane.add(getBtnNewButton_5());
-		contentPane.add(getTextField_7());
+		contentPane.add(getTotalTxt());
 		contentPane.add(getBtnNewButton_6());
 		contentPane.add(getBtnNewButton_8());
 
@@ -230,9 +233,9 @@ public class CashierHomeCreateBillPg extends JFrame {
 	}
 	private JLabel getLblNewLabel_3() {
 		if (lblNewLabel_3 == null) {
-			lblNewLabel_3 = new JLabel("Name :");
+			lblNewLabel_3 = new JLabel("Prod. Name :");
 			lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			lblNewLabel_3.setBounds(267, 310, 90, 25);
+			lblNewLabel_3.setBounds(267, 310, 111, 25);
 		}
 		return lblNewLabel_3;
 	}
@@ -324,11 +327,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 					goods.setGoodsName(productNameTxt.getText());
 					goods.setGoodsMrp(Double.parseDouble(productMrpTxt.getText()));
 					goods.setGoodsPrice(Double.parseDouble(priceTxt.getText()));
-					
-					
-				
-				displayData(goods);
-				
+				    displayData(goods);
 				}
 			});
 			btnNewButton_4.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -378,6 +377,9 @@ public class CashierHomeCreateBillPg extends JFrame {
 			btnNewButton_5.setBorder(emptyBorder);
 			btnNewButton_5.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					JOptionPane.showMessageDialog(null, "Bill not saved yet!!!");
+					BillPrint bp = new BillPrint();
+					bp.setVisible(true);
 				}
 			});
 			btnNewButton_5.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -385,13 +387,13 @@ public class CashierHomeCreateBillPg extends JFrame {
 		}
 		return btnNewButton_5;
 	}
-	private JTextField getTextField_7() {
-		if (textField_7 == null) {
-			textField_7 = new JTextField();
-			textField_7.setBounds(817, 637, 273, 30);
-			textField_7.setColumns(10);
+	private JTextField getTotalTxt() {
+		if (totalTxt == null) {
+			totalTxt = new JTextField();
+			totalTxt.setBounds(817, 637, 273, 30);
+			totalTxt.setColumns(10);
 		}
-		return textField_7;
+		return totalTxt;
 	}
 	private JTable getTable() {
 		if (table == null) {
@@ -439,6 +441,17 @@ public class CashierHomeCreateBillPg extends JFrame {
 			btnNewButton_8.setBorder(emptyBorderlo);
 			btnNewButton_8.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					
+					Bill bill = new Bill();
+					bill.setBillNumber(Integer.parseInt(billNoTxt.getText()));
+					bill.setCustomerName(customerNameTxt.getText());
+					bill.setDate(dateChooser.getDate());
+					bill.setTotalAmount(Double.parseDouble(totalTxt.getText()));
+					 BillDao bdao = new BillDaoImpl();
+					if(bdao.addBill(bill)) {
+						JOptionPane.showMessageDialog(null, "Bill added to the list of bills.");
+					}
+					
 				}
 			});
 			btnNewButton_8.setBounds(633, 628, 89, 57);
