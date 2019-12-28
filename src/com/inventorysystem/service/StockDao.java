@@ -9,4 +9,5 @@ public interface StockDao {
      List<StockModel> getAllProducts();
      boolean updateStock(StockModel product);
      StockModel getProductDetailsById(int id);
+     boolean updateAvailableNumber(int productId,int leftQuantity);
 }

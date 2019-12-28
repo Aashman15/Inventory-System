@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.inventorysystem.app.CashierHomeCreateBillPg;
 import com.inventorysystem.app.Stock;
 import com.inventorysystem.database.Db;
 import com.inventorysysystem.model.StockModel;
@@ -106,4 +107,22 @@ public class StockDaoImpl implements StockDao {
 		return s;
 	}
 
+	@Override
+	public boolean updateAvailableNumber(int productId, int leftQuantity) {
+		String sql = "update stock set Available=? where ProductId = " + productId;
+		try {
+			new Db();
+			PreparedStatement pstm = (PreparedStatement) Db.getDb().prepareStatement(sql);
+			CashierHomeCreateBillPg c = new CashierHomeCreateBillPg();
+			pstm.setInt(1, leftQuantity);
+			pstm.execute();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return false;
+	}
+	
 }

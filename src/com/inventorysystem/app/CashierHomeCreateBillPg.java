@@ -2,7 +2,6 @@ package com.inventorysystem.app;
 
 import java.awt.EventQueue;
 
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -24,9 +23,12 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import com.inventorysystem.service.BillDaoImpl;
+import com.inventorysystem.service.StockDao;
+import com.inventorysystem.service.StockDaoImpl;
 import com.inventorysystem.service.BillDao;
 import com.inventorysysystem.model.Bill;
 import com.inventorysysystem.model.Goods;
+import com.inventorysysystem.model.StockModel;
 import com.toedter.calendar.JDateChooser;
 
 public class CashierHomeCreateBillPg extends JFrame {
@@ -57,6 +59,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 	private JTable table;
 	private JButton btnNewButton_6;
 	private JButton btnNewButton_8;
+
 
 	/**
 	 * Launch the application.
@@ -114,7 +117,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new SearchBill().setVisible(true); 
+				new SearchBill().setVisible(true);
 			}
 		});
 		btnNewButton_1.setBackground(Color.WHITE);
@@ -349,12 +352,12 @@ public class CashierHomeCreateBillPg extends JFrame {
 					goods.setGoodsMrp(Double.parseDouble(productMrpTxt.getText()));
 
 					goods.setDiscount(Integer.parseInt(discountTxt.getText()));
-					
+
 					double mrp = Double.parseDouble(productMrpTxt.getText());
 					double discountPercent = Integer.parseInt(discountTxt.getText());
-					double priceAfterDiscount = mrp - (discountPercent/100) * mrp;
+					double priceAfterDiscount = mrp - (discountPercent / 100) * mrp;
 					double finalPrice = priceAfterDiscount * Integer.parseInt(productQuantityTxt.getText());
-					
+
 					goods.setGoodsPrice(finalPrice);
 					displayData(goods);
 
@@ -453,10 +456,10 @@ public class CashierHomeCreateBillPg extends JFrame {
 			btnNewButton_6 = new JButton("Remove");
 			btnNewButton_6.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
-					 if(table.getSelectedRow()<0) {
-						 JOptionPane.showMessageDialog(null, "Select any row!!!");
-					 }
+
+					if (table.getSelectedRow() < 0) {
+						JOptionPane.showMessageDialog(null, "Select any row!!!");
+					}
 				}
 			});
 			Image salesLogo = new ImageIcon(this.getClass().getResource("/delete.png")).getImage();
@@ -495,10 +498,26 @@ public class CashierHomeCreateBillPg extends JFrame {
 					String date = dateChooser.getDate().toString();
 					bill.setDate(date);
 					bill.setTotalAmount(Double.parseDouble(totalTxt.getText()));
+
+					StockDao sdao = new StockDaoImpl();
+					int productId = Integer.parseInt(productIdTxt.getText());
+					StockModel s = sdao.getProductDetailsById(productId);
+					int total = s.getTotalAdded();
+					System.out.println("Total : " + total);
+					int available = s.getProductAvailable();
+					System.out.println("Available : " + available);
+					int quantity = Integer.parseInt(productQuantityTxt.getText());
+					int leftQuantity = available - quantity;
+              
+					System.out.println(leftQuantity);
+
+					sdao.updateAvailableNumber(productId, leftQuantity);
+
 					BillDao bdao = new BillDaoImpl();
 					if (bdao.addBill(bill)) {
 						JOptionPane.showMessageDialog(null, "Bill added to the list of bills.");
 					}
+
 				}
 			});
 			btnNewButton_8.setBounds(633, 628, 89, 57);
