@@ -35,7 +35,7 @@ public class AdminDaoImpl implements AdminDao {
 			pstm.setString(3, admin.getAdminEmail());
 			pstm.setString(4, admin.getAdminUsername());
 			pstm.setString(5, admin.getAdminPassword());
-			pstm.setDate(6, admin.getAdminBirthday());
+			pstm.setString(6, admin.getAdminBirthday());
 			pstm.setString(7, admin.getAdminAdress());
 			pstm.setString(8, admin.getPhone());
 			pstm.execute();

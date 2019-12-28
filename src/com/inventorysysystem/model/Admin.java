@@ -8,7 +8,7 @@ public class Admin {
 	private String adminEmail;
 	private String adminUsername;
 	private String adminPassword;
-	private Date adminBirthday;
+	private String adminBirthday;
 	private String adminAdress;
 	private String phone;
 	public String getAdminFirstName() {
@@ -41,10 +41,10 @@ public class Admin {
 	public void setAdminPassword(String adminPassword) {
 		this.adminPassword = adminPassword;
 	}
-	public Date getAdminBirthday() {
+	public String getAdminBirthday() {
 		return adminBirthday;
 	}
-	public void setAdminBirthday(Date date) {
+	public void setAdminBirthday(String date) {
 		this.adminBirthday = date;
 	}
 	public String getAdminAdress() {

@@ -102,11 +102,17 @@ public class LogInFormForCashier extends JFrame {
 				CashierDao cdao = new CashierDaoImpl();
 				String email = emailtxt.getText();
 				String password = passwordField.getText();
-				if (cdao.cashierExist(email, password)) {
+				if(email.isEmpty() && password.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "You can not go in with out email and password!");
+				}else if(email.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "You forgot to enter your email!");
+				}else if (password.isEmpty()){
+					JOptionPane.showMessageDialog(null, "You forgot to enter your password!");
+				}else if (cdao.cashierExist(email, password)) {
 					new CashierHomeCreateBillPg().setVisible(true);
 					dispose();
 				} else {
-					JOptionPane.showMessageDialog(null, "You are not welcome");
+					JOptionPane.showMessageDialog(null, "Something went wrong! Make sure you entered right email and password!");
 				}
 			}
 		});

@@ -237,39 +237,40 @@ public class AdminHomeCashierPg extends JFrame {
 
 				Cashier cashier = new Cashier();
 				CashierDao cdao = new CashierDaoImpl();
-				if (idTxt.getText().isEmpty()) {
-					cashier.setCashierId(0);
-				} else {
-					cashier.setCashierId(Integer.parseInt(idTxt.getText()));
+
+				if (idTxt.getText().isEmpty() || fnameTxt.getText().isEmpty() || lnameTxt.getText().isEmpty()
+						|| adresstxt.getText().isEmpty() || numberTxt.getText().isEmpty()
+						|| emailTxt.getText().isEmpty() || passwordField.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Fill all the boxes !!!");
+					return;
 				}
 
+				if (malerdbtn.isSelected() == false && femalerdbtn.isSelected() == false) {
+					JOptionPane.showMessageDialog(null, "Select Gender");
+					return;
+				}
+				if (malerdbtn.isSelected() && femalerdbtn.isSelected()) {
+					JOptionPane.showMessageDialog(null, "Select only one gender");
+					return;
+				}
+
+				if (malerdbtn.isSelected()) {
+					cashier.setCashierGender("Male");
+				} else {
+					cashier.setCashierGender("Female");
+				}
+				cashier.setCashierId(Integer.parseInt(idTxt.getText()));
 				cashier.setCashierFirstName(fnameTxt.getText());
 				cashier.setCashierLastName(lnameTxt.getText());
 				cashier.setCashierAdress(adresstxt.getText());
 				cashier.setCashierNumber(numberTxt.getText());
 				cashier.setCashierEmail(emailTxt.getText());
-				cashier.setCashierPassword(passwordField.getText());
-
-				if (malerdbtn.isSelected() == false && femalerdbtn.isSelected() == false) {
-					JOptionPane.showMessageDialog(null, "Select Gender");
-					return;
-				} else if (malerdbtn.isSelected() && femalerdbtn.isSelected()) {
-					JOptionPane.showMessageDialog(null, "Select only one gender");
-					return;
-				} else if (malerdbtn.isSelected()) {
-					cashier.setCashierGender("Male");
-				} else {
-					cashier.setCashierGender("Female");
-				}
-				if (fnameTxt.getText().isEmpty() || idTxt.getText().isEmpty() || lnameTxt.getText().isEmpty()
-						|| adresstxt.getText().isEmpty() || numberTxt.getText().isEmpty()
-						|| emailTxt.getText().isEmpty() || passwordField.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Check all the boxes and circle");
-				} else {
-					cdao.addCashier(cashier);
-					JOptionPane.showMessageDialog(null, "Cashier added!!!");
-					displayCashierDetails();
-				}
+				cashier.setCashierPassword(passwordField.getText());  
+				if(cdao.addCashier(cashier)) {
+				JOptionPane.showMessageDialog(null, "Cashier added!!!");
+				displayCashierDetails();
+				}else
+					JOptionPane.showMessageDialog(null, "Something went wrong !!! Please try again !!!");
 			}
 		});
 		btnNewButton_6.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -296,21 +297,21 @@ public class AdminHomeCashierPg extends JFrame {
 		JButton btnNewButton_4 = new JButton("Delete");
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				if(table.getSelectedRow()<0) {
+
+				if (table.getSelectedRow() < 0) {
 					JOptionPane.showMessageDialog(null, "Select any row to delete");
 					return;
 				}
-				
+
 				int row = table.getSelectedRow();
 				int id = (int) table.getModel().getValueAt(row, 0);
-				if(new CashierDaoImpl().deleteCashier(id)) {
+				if (new CashierDaoImpl().deleteCashier(id)) {
 					JOptionPane.showMessageDialog(null, "Deleted");
 					displayCashierDetails();
-				}else {
+				} else {
 					JOptionPane.showMessageDialog(null, "Not deleted");
 				}
-				
+
 			}
 		});
 		Image deleteLogo = new ImageIcon(this.getClass().getResource("/delete.png")).getImage();
@@ -358,7 +359,7 @@ public class AdminHomeCashierPg extends JFrame {
 		for (Cashier c : clist) {
 			mymodel.addRow(new Object[] { c.getCashierId(), c.getCashierFirstName(), c.getCashierLastName(),
 					c.getCashierAdress(), c.getCashierNumber(), c.getCashierEmail(), c.getCashierPassword(),
-					c.getCashierGender()});
+					c.getCashierGender() });
 		}
 	}
 

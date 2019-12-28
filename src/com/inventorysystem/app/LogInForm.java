@@ -103,18 +103,12 @@ public class LogInForm extends JFrame {
 				String password = passwordField.getText();
 				
 				if(username.isEmpty() && password.isEmpty()) {
-					JOptionPane.showMessageDialog(null, " where is your username and password to login.");
-				}
-				else if(password.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Enter password");
-				}
-				else if(username.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "You can not go in without your email and password!");
+				}else if(username.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Enter username!!!");
-				}
-				
-				
-				
-				else if(adao.adminExist(username, password)) {
+				}else if(password.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Enter password");
+				}else if(adao.adminExist(username, password)) {
 					JOptionPane.showMessageDialog(null, "Welcome");
 					dispose();
 				}else {

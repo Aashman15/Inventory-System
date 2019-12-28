@@ -456,10 +456,12 @@ public class CashierHomeCreateBillPg extends JFrame {
 			btnNewButton_6 = new JButton("Remove");
 			btnNewButton_6.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-
 					if (table.getSelectedRow() < 0) {
 						JOptionPane.showMessageDialog(null, "Select any row!!!");
 					}
+					int row = table.getSelectedRow();
+					DefaultTableModel model = (DefaultTableModel) table.getModel();
+					model.removeRow(row);
 				}
 			});
 			Image salesLogo = new ImageIcon(this.getClass().getResource("/delete.png")).getImage();
@@ -517,7 +519,6 @@ public class CashierHomeCreateBillPg extends JFrame {
 					if (bdao.addBill(bill)) {
 						JOptionPane.showMessageDialog(null, "Bill added to the list of bills.");
 					}
-
 				}
 			});
 			btnNewButton_8.setBounds(633, 628, 89, 57);

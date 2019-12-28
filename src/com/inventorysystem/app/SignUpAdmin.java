@@ -23,6 +23,8 @@ import com.inventorysystem.service.AdminDao;
 import com.inventorysystem.service.AdminDaoImpl;
 import com.inventorysysystem.model.Admin;
 import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.demo.DateChooserPanel;
+
 import javax.swing.JPasswordField;
 
 public class SignUpAdmin extends JFrame {
@@ -35,6 +37,7 @@ public class SignUpAdmin extends JFrame {
 	private JTextField adresstxt;
 	private JTextField phonetxt;
 	private JPasswordField passwordField;
+	private JTextField birthdayTxt;
 
 	/**
 	 * Launch the application.
@@ -132,28 +135,31 @@ public class SignUpAdmin extends JFrame {
 		JButton btnNewButton = new JButton("Sign Up");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AdminDao adao = new AdminDaoImpl();
+				
 				Admin admin = new Admin();
 				admin.setAdminFirstName(fnametxt.getText());
 				admin.setAdminLastName(lnametxt.getText());
 				admin.setAdminEmail(emailtxt.getText());
 				admin.setAdminUsername(usernametxt.getText());
 				admin.setAdminPassword(passwordField.getText());
-				
-				//admin.setAdminBirthday(new Date(dateChooser.getDate().getTime()));
-				admin.setAdminBirthday(null);
+				admin.setAdminBirthday(birthdayTxt.getText());
 				admin.setAdminAdress(adresstxt.getText());
 				admin.setPhone(phonetxt.getText());
-			if(fnametxt.getText().isEmpty()&&lnametxt.getText().isEmpty()&&emailtxt.getText().isEmpty() && usernametxt.getText().isEmpty()
-					&&passwordField.getText().isEmpty()&&/*birthday is empty*/ adresstxt.getText().isEmpty()&&phonetxt.getText().isEmpty()) {
-				JOptionPane.showMessageDialog(null, "Fill all the boxes!!!");
-			}else {
+		
+		
+				if(fnametxt.getText().isEmpty()||lnametxt.getText().isEmpty()||emailtxt.getText().isEmpty() 
+						   || usernametxt.getText().isEmpty()||passwordField.getText().isEmpty()||birthdayTxt.getText().isEmpty() 
+						   || adresstxt.getText().isEmpty()||phonetxt.getText().isEmpty()) {
+							JOptionPane.showMessageDialog(null, "Fill all the boxes!!!");
+			    }else {
+			    	    AdminDao adao = new AdminDaoImpl();
 		             	if(adao.signUpAdmin(admin)) {
 			             JOptionPane.showMessageDialog(null, "You are admin from now!!!");
 		            	}else {
 				        JOptionPane.showMessageDialog(null, "Something went wrong");
-		          	}
+		          	
 			   }
+			    }
 			}
 		});
 		btnNewButton.setBackground(Color.GREEN);
@@ -209,9 +215,15 @@ public class SignUpAdmin extends JFrame {
 		passwordField = new JPasswordField();
 		passwordField.setBounds(193, 243, 215, 20);
 		contentPane.add(passwordField);
+		contentPane.add(getBirthdayTxt());
 		
-		JDateChooser dateChooser = new JDateChooser();
-		dateChooser.setBounds(193, 281, 215, 20);
-		contentPane.add(dateChooser);
+	}
+	private JTextField getBirthdayTxt() {
+		if (birthdayTxt == null) {
+			birthdayTxt = new JTextField();
+			birthdayTxt.setBounds(193, 283, 215, 20);
+			birthdayTxt.setColumns(10);
+		}
+		return birthdayTxt;
 	}
 }
