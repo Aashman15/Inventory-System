@@ -2,10 +2,10 @@ package com.inventorysystem.app;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.Image;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -13,6 +13,11 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -24,12 +29,6 @@ import com.inventorysystem.service.StockDaoImpl;
 import com.inventorysysystem.model.Bill;
 import com.inventorysysystem.model.StockModel;
 
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.util.List;
-import java.awt.event.ActionEvent;
-
 public class Transaction extends JFrame {
 
 	private JPanel contentPane;
@@ -37,9 +36,6 @@ public class Transaction extends JFrame {
 	private JLabel lblNewLabel_1;
 	private JScrollPane scrollPane;
 	private JTable table;
-	private JTextField totalTxt;
-	private JLabel lblNewLabel_2;
-	private JButton btnNewButton;
 
 	/**
 	 * Launch the application.
@@ -71,33 +67,43 @@ public class Transaction extends JFrame {
 		contentPane.add(getLblNewLabel());
 		contentPane.add(getLblNewLabel_1());
 		contentPane.add(getScrollPane());
-		contentPane.add(getTotalTxt());
-		contentPane.add(getLblNewLabel_2());
-		contentPane.add(getBtnNewButton());
+		JButton btnNewButton_7 = new JButton("");
+		btnNewButton_7.setToolTipText("Log Out");
+		btnNewButton_7.setBackground(Color.WHITE);
+		Image logOutLogo = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();
+		btnNewButton_7.setIcon(new ImageIcon(logOutLogo));
+		btnNewButton_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnNewButton_7.setBounds(1200, 615, 34, 35);
+		Border emptyBorderlo = BorderFactory.createEmptyBorder();
+		btnNewButton_7.setBorder(emptyBorderlo);
+		contentPane.add(btnNewButton_7);
 		displayData();
-		setTotal();
 	}
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
-			lblNewLabel = new JLabel("");
-			lblNewLabel.setBounds(457, 11, 73, 64);
-			Image salesLogo = new ImageIcon(this.getClass().getResource("/banking.png")).getImage();
-			lblNewLabel.setIcon(new ImageIcon(salesLogo));
+			lblNewLabel = new JLabel("Transaction");
+			lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 40));
+			lblNewLabel.setBounds(577, 11, 261, 58);
 		}
 		return lblNewLabel;
 	}
 	private JLabel getLblNewLabel_1() {
 		if (lblNewLabel_1 == null) {
-			lblNewLabel_1 = new JLabel("Transaction");
-			lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 40));
-			lblNewLabel_1.setBounds(523, 11, 252, 64);
+			lblNewLabel_1 = new JLabel("");
+			Image salesLogo = new ImageIcon(this.getClass().getResource("/banking.png")).getImage();
+			lblNewLabel_1.setIcon(new ImageIcon(salesLogo));
+			lblNewLabel_1.setBounds(511, 0, 64, 69);
 		}
 		return lblNewLabel_1;
 	}
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
-			scrollPane.setBounds(122, 90, 1012, 482);
+			scrollPane.setBounds(52, 80, 1146, 570);
 			scrollPane.setViewportView(getTable());
 		}
 		return scrollPane;
@@ -109,71 +115,25 @@ public class Transaction extends JFrame {
 				new Object[][] {
 				},
 				new String[] {
-					"Product Id", "Product Name", "Sold Quantity", "Earned"
+					"Sold Products", " Total Received Amount", "Bought By", "Date"
 				}
 			));
 		}
 		return table;
 	}
-	private JTextField getTotalTxt() {
-		if (totalTxt == null) {
-			totalTxt = new JTextField();
-			totalTxt.setBounds(882, 583, 252, 35);
-			totalTxt.setColumns(10);
-		}
-		return totalTxt;
-	}
-	private JLabel getLblNewLabel_2() {
-		if (lblNewLabel_2 == null) {
-			lblNewLabel_2 = new JLabel("Total Earned : ");
-			lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 16));
-			lblNewLabel_2.setBounds(748, 583, 132, 35);
-		}
-		return lblNewLabel_2;
-	}
-	private JButton getBtnNewButton() {
-		if (btnNewButton == null) {
-			btnNewButton = new JButton("");
-			btnNewButton.setBackground(Color.WHITE);
-			Image logOutLogo = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();
-			btnNewButton.setIcon(new ImageIcon(logOutLogo));
-			btnNewButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					dispose();
-				}
-			});
-			btnNewButton.setBounds(707, 577, 40, 41);
-			Border emptyBorderlo = BorderFactory.createEmptyBorder();
-			btnNewButton.setBorder(emptyBorderlo);
-		}
-		return btnNewButton;
-	}
-	
 	void displayData(){
-		StockDao sdao = new StockDaoImpl();
-		List<StockModel> smList = sdao.getAllProducts();
+		BillDao bdao = new BillDaoImpl();
+		List<Bill> blist = bdao.getAllBills();
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		model.setRowCount(0);
-		for(StockModel sm : smList) {
-			int sq = sm.getTotalAdded()-sm.getProductAvailable();
-			double earned = sq*(sm.getProductMrp()-(0.1*sm.getProductMrp()));
-			model.addRow(new Object [] {
-					sm.getProductId(),sm.getProductName(),sq,earned
+		
+		for(Bill b : blist) {
+			model.addRow(new Object[] {
+					b.getProducts(),b.getTotalAmount(),b.getCustomerName(),b.getDate()
 			});
 		}
+			
+		
+		
 	};
-	void setTotal() {
-	double total = 0;
-	DefaultTableModel model = (DefaultTableModel) table.getModel();
-    int row =  model.getRowCount();
-    for(int i = 0; i<row; i++) {
-    	total = total + (double) model.getValueAt(i, 3);
-    }
-    String totalEarned = Double.toString(total);
-   
-    
-    totalTxt.setText(totalEarned);
-    totalTxt.disable();
-	}
-	
 }

@@ -98,7 +98,7 @@ public class AdminHomeCashierPg extends JFrame {
 
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			    new Transaction().setVisible(true);
+				new Transaction().setVisible(true);
 			}
 		});
 		btnNewButton_1.setBackground(Color.WHITE);
@@ -125,6 +125,11 @@ public class AdminHomeCashierPg extends JFrame {
 		contentPane.add(btnNewButton_2);
 
 		JButton btnNewButton_3 = new JButton("Sales");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new Sales().setVisible(true);
+			}
+		});
 		Image salesLogo = new ImageIcon(this.getClass().getResource("/sales.png")).getImage();
 		btnNewButton_3.setIcon(new ImageIcon(salesLogo));
 		btnNewButton_3.setBackground(Color.WHITE);

@@ -90,6 +90,7 @@ public class LogInFormForCashier extends JFrame {
 
 			}
 		});
+		
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 18));
 		btnNewButton.setBackground(Color.RED);
 		btnNewButton.setBounds(264, 254, 114, 54);
@@ -100,7 +101,7 @@ public class LogInFormForCashier extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				CashierDao cdao = new CashierDaoImpl();
-				String email = emailtxt.getText();
+				String email = emailtxt.getText();	
 				String password = passwordField.getText();
 				if(email.isEmpty() && password.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "You can not go in with out email and password!");
@@ -114,6 +115,8 @@ public class LogInFormForCashier extends JFrame {
 				} else {
 					JOptionPane.showMessageDialog(null, "Something went wrong! Make sure you entered right email and password!");
 				}
+				
+				
 			}
 		});
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 18));

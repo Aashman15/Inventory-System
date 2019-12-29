@@ -16,6 +16,7 @@ import com.mysql.jdbc.PreparedStatement;
 public class StockDaoImpl implements StockDao {
 
 	Connection con = null;
+
 	public StockDaoImpl() {
 		try {
 			con = Db.getDb();
@@ -26,17 +27,17 @@ public class StockDaoImpl implements StockDao {
 
 	@Override
 	public boolean addStock(StockModel stock) {
-          		
+
 		String sql = "insert into stock (ProductId,ProductName,Available,TotalAdded,Mrp)values(?,?,?,?,?)";
 		try {
 			PreparedStatement pstm = (PreparedStatement) con.prepareStatement(sql);
-            pstm.setInt(1, stock.getProductId());
-            pstm.setString(2, stock.getProductName());
-            pstm.setInt(3, stock.getProductAvailable());
-            pstm.setInt(4, stock.getTotalAdded());
-            pstm.setDouble(5, stock.getProductMrp());
-            pstm.execute();
-            return true;
+			pstm.setInt(1, stock.getProductId());
+			pstm.setString(2, stock.getProductName());
+			pstm.setInt(3, stock.getProductAvailable());
+			pstm.setInt(4, stock.getTotalAdded());
+			pstm.setDouble(5, stock.getProductMrp());
+			pstm.execute();
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -50,8 +51,8 @@ public class StockDaoImpl implements StockDao {
 		try {
 			Statement stm = con.createStatement();
 			ResultSet rs = stm.executeQuery(sql);
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				StockModel s = new StockModel();
 				s.setProductId(rs.getInt("ProductId"));
 				s.setProductName(rs.getString("ProductName"));
@@ -60,8 +61,7 @@ public class StockDaoImpl implements StockDao {
 				s.setProductMrp(rs.getDouble("Mrp"));
 				slist.add(s);
 			}
-			
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -93,7 +93,7 @@ public class StockDaoImpl implements StockDao {
 		try {
 			Statement stm = con.createStatement();
 			ResultSet rs = stm.executeQuery(sql);
-			if(rs.next()) {
+			if (rs.next()) {
 				s.setProductId(rs.getInt("ProductId"));
 				s.setProductName(rs.getString("ProductName"));
 				s.setProductAvailable(rs.getInt("Available"));
@@ -103,7 +103,7 @@ public class StockDaoImpl implements StockDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return s;
 	}
 
@@ -113,16 +113,13 @@ public class StockDaoImpl implements StockDao {
 		try {
 			new Db();
 			PreparedStatement pstm = (PreparedStatement) Db.getDb().prepareStatement(sql);
-			CashierHomeCreateBillPg c = new CashierHomeCreateBillPg();
 			pstm.setInt(1, leftQuantity);
 			pstm.execute();
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
 		return false;
 	}
-	
+
 }

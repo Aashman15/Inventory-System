@@ -30,6 +30,8 @@ import com.inventorysysystem.model.Bill;
 import com.inventorysysystem.model.Goods;
 import com.inventorysysystem.model.StockModel;
 import com.toedter.calendar.JDateChooser;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class CashierHomeCreateBillPg extends JFrame {
 
@@ -144,6 +146,11 @@ public class CashierHomeCreateBillPg extends JFrame {
 		contentPane.add(btnNewButton_2);
 
 		JButton btnNewButton_3 = new JButton("Sales");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new Sales().setVisible(true);
+			}
+		});
 		Image salesLogo = new ImageIcon(this.getClass().getResource("/sales.png")).getImage();
 		btnNewButton_3.setIcon(new ImageIcon(salesLogo));
 		btnNewButton_3.setBackground(Color.WHITE);
@@ -193,12 +200,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 		contentPane.add(getTotalTxt());
 		contentPane.add(getBtnNewButton_6());
 		contentPane.add(getBtnNewButton_8());
-	    
-		try {
-		setData(Integer.parseInt(productIdTxt.getText()));
-		}catch (Exception e){
-			e.getMessage();
-		}
+		discountTxt.setText("10");
 	}
 
 	private JLabel getLblNewLabel() {
@@ -240,6 +242,17 @@ public class CashierHomeCreateBillPg extends JFrame {
 	private JTextField getProductIdTxt() {
 		if (productIdTxt == null) {
 			productIdTxt = new JTextField();
+			productIdTxt.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyReleased(KeyEvent e) {
+					if (productIdTxt.getText().isEmpty()) {
+						productMrpTxt.setText("");
+						productNameTxt.setText("");
+					}
+					setData(Integer.parseInt(productIdTxt.getText()));
+
+				}
+			});
 			productIdTxt.setBounds(370, 233, 191, 35);
 			productIdTxt.setColumns(10);
 		}
@@ -356,6 +369,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 					goods.setGoodsMrp(Double.parseDouble(productMrpTxt.getText()));
 
 					goods.setDiscount(Integer.parseInt(discountTxt.getText()));
+					goods.setId(Integer.parseInt(productIdTxt.getText()));
 
 					double mrp = Double.parseDouble(productMrpTxt.getText());
 					double discountPercent = Integer.parseInt(discountTxt.getText());
@@ -449,8 +463,8 @@ public class CashierHomeCreateBillPg extends JFrame {
 	private JTable getTable() {
 		if (table == null) {
 			table = new JTable();
-			table.setModel(
-					new DefaultTableModel(new Object[][] {}, new String[] { "Quantity", "Name", "Mrp", "Price" }));
+			table.setModel(new DefaultTableModel(new Object[][] {},
+					new String[] { "Quantity", "Name", "Mrp", "Price", "Product Id" }));
 		}
 		return table;
 	}
@@ -483,7 +497,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 	private void displayData(Goods goods) {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		model.addRow(new Object[] { goods.getGoodsQuantity(), goods.getGoodsName(), goods.getGoodsMrp(),
-				goods.getGoodsPrice() });
+				goods.getGoodsPrice(), goods.getId() });
 
 	}
 
@@ -504,16 +518,32 @@ public class CashierHomeCreateBillPg extends JFrame {
 					String date = dateChooser.getDate().toString();
 					bill.setDate(date);
 					bill.setTotalAmount(Double.parseDouble(totalTxt.getText()));
+					
+					
 
 					StockDao sdao = new StockDaoImpl();
-					int productId = Integer.parseInt(productIdTxt.getText());
-					StockModel s = sdao.getProductDetailsById(productId);
-					int available = s.getProductAvailable();
-					int quantity = Integer.parseInt(productQuantityTxt.getText());
-					int leftQuantity = available - quantity;
+					DefaultTableModel model = (DefaultTableModel) table.getModel();
+					int rows = model.getRowCount();
+					
+					String products = "";
+					
+					for(int i = 0; i<rows;i++) {
+						int q = (int) model.getValueAt(i, 0);
+						String s = (String) model.getValueAt(i, 1);
+						products = products + " " + Integer.toString(q) + " " + s;
+					}
+					System.out.println(products);
+					bill.setProducts(products);
 
-					sdao.updateAvailableNumber(productId, leftQuantity);
+					for (int i = 0; i < rows; i++) {
+						int productId = (int) model.getValueAt(i, 4);
+						StockModel s = sdao.getProductDetailsById(productId);
+						int available = s.getProductAvailable();
+						int quantity = Integer.parseInt(productQuantityTxt.getText());
+						int leftQuantity = available - quantity;
 
+						sdao.updateAvailableNumber(productId, leftQuantity);
+					}
 					BillDao bdao = new BillDaoImpl();
 					if (bdao.addBill(bill)) {
 						JOptionPane.showMessageDialog(null, "Bill added to the list of bills.");
@@ -524,11 +554,11 @@ public class CashierHomeCreateBillPg extends JFrame {
 		}
 		return btnNewButton_8;
 	}
+
 	void setData(int productId) {
 		StockDao sdao = new StockDaoImpl();
 		StockModel s = sdao.getProductDetailsById(productId);
-		discountTxt.setText("10");
 		productMrpTxt.setText(Double.toString(s.getProductMrp()));
-        productNameTxt.setText(s.getProductName());
+		productNameTxt.setText(s.getProductName());
 	}
 }

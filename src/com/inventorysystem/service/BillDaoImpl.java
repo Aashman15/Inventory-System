@@ -14,13 +14,14 @@ public class BillDaoImpl implements BillDao{
 
 	@Override
 	public boolean addBill(Bill bill) {
-        String sql = "insert into bills (BillNumber,CustomerName,Amount,Date) values (?,?,?,?)";
+        String sql = "insert into bills (BillNumber,CustomerName,Amount,Date,Products) values (?,?,?,?,?)";
 		try {
 			PreparedStatement pstm = (PreparedStatement) Db.getDb().prepareStatement(sql);
 			pstm.setInt(1, bill.getBillNumber());
 			pstm.setString(2, bill.getCustomerName());
 			pstm.setDouble(3, bill.getTotalAmount());
 			pstm.setString(4, bill.getDate());
+			pstm.setString(5, bill.getProducts());
 			pstm.execute();
 			return true;
 		} catch (SQLException e) {
@@ -43,6 +44,7 @@ public class BillDaoImpl implements BillDao{
 				b.setCustomerName(rs.getString(2));
 				b.setTotalAmount(rs.getDouble(3));
 				b.setDate(rs.getString(4));
+				b.setProducts(rs.getString(5));
 			    bList.add(b);
 			}
 		} catch (SQLException e) {
@@ -65,6 +67,7 @@ public class BillDaoImpl implements BillDao{
 		    	b.setCustomerName(rs.getString(2));
 		    	b.setTotalAmount(rs.getDouble(3));
 		    	b.setDate(rs.getString(4));
+		    	b.setProducts(rs.getString(5));
 		    	blist.add(b);
 		    }
 		} catch (SQLException e) {

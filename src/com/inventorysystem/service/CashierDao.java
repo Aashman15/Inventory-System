@@ -16,4 +16,6 @@ public interface CashierDao {
 	boolean updateCashierById(Cashier c);
 
 	boolean deleteCashier(int id);
+
+	String getCashierName(String email);
 }

@@ -156,4 +156,21 @@ public class CashierDaoImpl implements CashierDao {
 		return false;
 	}
 
+	@Override
+	public String getCashierName(String email) {
+		String sql = "select FirstName from cashiers where Email = " + email;
+		try {
+			new Db();
+			Statement stm = Db.getDb().createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			if(rs.next()) {
+				return rs.getString("FirstName");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
 }

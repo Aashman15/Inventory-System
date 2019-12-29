@@ -6,6 +6,15 @@ public class Bill {
 	private String customerName;
 	private double totalAmount;
 	private String date;
+	private String products;
+
+	public String getProducts() {
+		return products;
+	}
+
+	public void setProducts(String products) {
+		this.products = products;
+	}
 
 	public int getBillNumber() {
 		return billNumber;
