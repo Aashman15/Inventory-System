@@ -532,16 +532,14 @@ public class CashierHomeCreateBillPg extends JFrame {
 						String s = (String) model.getValueAt(i, 1);
 						products = products + " " + Integer.toString(q) + " " + s;
 					}
-					System.out.println(products);
 					bill.setProducts(products);
 
 					for (int i = 0; i < rows; i++) {
 						int productId = (int) model.getValueAt(i, 4);
 						StockModel s = sdao.getProductDetailsById(productId);
 						int available = s.getProductAvailable();
-						int quantity = Integer.parseInt(productQuantityTxt.getText());
+						int quantity = (int) model.getValueAt(i, 0);
 						int leftQuantity = available - quantity;
-
 						sdao.updateAvailableNumber(productId, leftQuantity);
 					}
 					BillDao bdao = new BillDaoImpl();

@@ -213,7 +213,7 @@ public class Stock extends JFrame {
 					
 					s.setProductId( Integer.parseInt(idTxt.getText()));
 					s.setProductName(nameTxt.getText());
-					s.setProductAvailable( Integer.parseInt(availableTxt.getText()));
+					s.setProductAvailable(Integer.parseInt(availableTxt.getText()));
 					s.setTotalAdded(Integer.parseInt(totalTxt.getText()));
 					s.setProductMrp(Double.parseDouble(mrpTxt.getText()));
 					
