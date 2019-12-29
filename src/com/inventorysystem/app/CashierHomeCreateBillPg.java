@@ -60,7 +60,6 @@ public class CashierHomeCreateBillPg extends JFrame {
 	private JButton btnNewButton_6;
 	private JButton btnNewButton_8;
 
-
 	/**
 	 * Launch the application.
 	 */
@@ -194,7 +193,12 @@ public class CashierHomeCreateBillPg extends JFrame {
 		contentPane.add(getTotalTxt());
 		contentPane.add(getBtnNewButton_6());
 		contentPane.add(getBtnNewButton_8());
-
+	    
+		try {
+		setData(Integer.parseInt(productIdTxt.getText()));
+		}catch (Exception e){
+			e.getMessage();
+		}
 	}
 
 	private JLabel getLblNewLabel() {
@@ -504,14 +508,9 @@ public class CashierHomeCreateBillPg extends JFrame {
 					StockDao sdao = new StockDaoImpl();
 					int productId = Integer.parseInt(productIdTxt.getText());
 					StockModel s = sdao.getProductDetailsById(productId);
-					int total = s.getTotalAdded();
-					System.out.println("Total : " + total);
 					int available = s.getProductAvailable();
-					System.out.println("Available : " + available);
 					int quantity = Integer.parseInt(productQuantityTxt.getText());
 					int leftQuantity = available - quantity;
-              
-					System.out.println(leftQuantity);
 
 					sdao.updateAvailableNumber(productId, leftQuantity);
 
@@ -524,5 +523,12 @@ public class CashierHomeCreateBillPg extends JFrame {
 			btnNewButton_8.setBounds(633, 628, 89, 57);
 		}
 		return btnNewButton_8;
+	}
+	void setData(int productId) {
+		StockDao sdao = new StockDaoImpl();
+		StockModel s = sdao.getProductDetailsById(productId);
+		discountTxt.setText("10");
+		productMrpTxt.setText(Double.toString(s.getProductMrp()));
+        productNameTxt.setText(s.getProductName());
 	}
 }

@@ -82,6 +82,7 @@ public class AdminHomeCashierPg extends JFrame {
 		btnNewButton.setIcon(new ImageIcon(cashierLogo));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "You are already in transaction page");
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -97,6 +98,7 @@ public class AdminHomeCashierPg extends JFrame {
 
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+			    new Transaction().setVisible(true);
 			}
 		});
 		btnNewButton_1.setBackground(Color.WHITE);
