@@ -32,6 +32,7 @@ import com.inventorysysystem.model.StockModel;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 public class CashierHomeCreateBillPg extends JFrame {
 
@@ -61,6 +62,8 @@ public class CashierHomeCreateBillPg extends JFrame {
 	private JTable table;
 	private JButton btnNewButton_6;
 	private JButton btnNewButton_8;
+	private JLabel lblNewLabel_10;
+	private JLabel lblNewLabel_11;
 
 	/**
 	 * Launch the application.
@@ -201,6 +204,12 @@ public class CashierHomeCreateBillPg extends JFrame {
 		contentPane.add(getBtnNewButton_6());
 		contentPane.add(getBtnNewButton_8());
 		discountTxt.setText("10");
+		List<Bill> blist = new BillDaoImpl().getAllBills();
+		int lastBillNum = blist.size();
+		String autoBillNo =Integer.toString(lastBillNum + 1);
+		billNoTxt.setText(autoBillNo);
+		contentPane.add(getLblNewLabel_10());
+		contentPane.add(getLblNewLabel_11());
 	}
 
 	private JLabel getLblNewLabel() {
@@ -442,11 +451,29 @@ public class CashierHomeCreateBillPg extends JFrame {
 			btnNewButton_5.setBorder(emptyBorder);
 			btnNewButton_5.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					JOptionPane.showMessageDialog(null, "Sorry printing is not available yet!");
+
+					BillDao bdao = new BillDaoImpl();
+					List<Bill> blist = bdao.getAllBills();
+					
+					boolean found = true;
+					for (Bill b : blist) {
+						int bnum = Integer.parseInt(billNoTxt.getText());
+						if(b.getBillNumber() == bnum) {
+							PrintBill pb = new PrintBill();
+							pb.setData(b);
+							pb.setVisible(true);
+							 found = true;
+							 break;
+						}
+					}
+					
+					if(found = false) {
+						JOptionPane.showMessageDialog(null, "First Save The Bill");
+					}
 				}
 			});
 			btnNewButton_5.setFont(new Font("Tahoma", Font.BOLD, 20));
-			btnNewButton_5.setBounds(1100, 637, 124, 30);
+			btnNewButton_5.setBounds(1121, 632, 124, 30);
 		}
 		return btnNewButton_5;
 	}
@@ -454,7 +481,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 	private JTextField getTotalTxt() {
 		if (totalTxt == null) {
 			totalTxt = new JTextField();
-			totalTxt.setBounds(817, 637, 273, 30);
+			totalTxt.setBounds(817, 637, 143, 30);
 			totalTxt.setColumns(10);
 		}
 		return totalTxt;
@@ -518,16 +545,14 @@ public class CashierHomeCreateBillPg extends JFrame {
 					String date = dateChooser.getDate().toString();
 					bill.setDate(date);
 					bill.setTotalAmount(Double.parseDouble(totalTxt.getText()));
-					
-					
 
 					StockDao sdao = new StockDaoImpl();
 					DefaultTableModel model = (DefaultTableModel) table.getModel();
 					int rows = model.getRowCount();
-					
+
 					String products = "";
-					
-					for(int i = 0; i<rows;i++) {
+
+					for (int i = 0; i < rows; i++) {
 						int q = (int) model.getValueAt(i, 0);
 						String s = (String) model.getValueAt(i, 1);
 						products = products + " " + Integer.toString(q) + " " + s;
@@ -558,5 +583,19 @@ public class CashierHomeCreateBillPg extends JFrame {
 		StockModel s = sdao.getProductDetailsById(productId);
 		productMrpTxt.setText(Double.toString(s.getProductMrp()));
 		productNameTxt.setText(s.getProductName());
+	}
+	private JLabel getLblNewLabel_10() {
+		if (lblNewLabel_10 == null) {
+			lblNewLabel_10 = new JLabel("Save the bill first to print! ");
+			lblNewLabel_10.setBounds(970, 632, 149, 14);
+		}
+		return lblNewLabel_10;
+	}
+	private JLabel getLblNewLabel_11() {
+		if (lblNewLabel_11 == null) {
+			lblNewLabel_11 = new JLabel("Else it will not print!");
+			lblNewLabel_11.setBounds(976, 653, 124, 14);
+		}
+		return lblNewLabel_11;
 	}
 }
