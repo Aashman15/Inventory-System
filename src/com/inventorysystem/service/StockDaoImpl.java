@@ -121,5 +121,4 @@ public class StockDaoImpl implements StockDao {
 		}
 		return false;
 	}
-
 }
