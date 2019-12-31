@@ -19,6 +19,7 @@ import java.awt.Color;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class LogInFormForCashier extends JFrame {
@@ -83,11 +84,9 @@ public class LogInFormForCashier extends JFrame {
 		JButton btnNewButton = new JButton("Cancel");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				WelcomeForm wf = new WelcomeForm();
-				wf.setVisible(true);
-				dispose();
-
+					wf.setVisible(true);
+					dispose();
 			}
 		});
 		

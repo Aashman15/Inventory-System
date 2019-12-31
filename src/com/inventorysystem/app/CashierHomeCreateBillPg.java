@@ -206,7 +206,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 		discountTxt.setText("10");
 		List<Bill> blist = new BillDaoImpl().getAllBills();
 		int lastBillNum = blist.size();
-		String autoBillNo =Integer.toString(lastBillNum + 1);
+		String autoBillNo = Integer.toString(lastBillNum + 1);
 		billNoTxt.setText(autoBillNo);
 		contentPane.add(getLblNewLabel_10());
 		contentPane.add(getLblNewLabel_11());
@@ -454,20 +454,20 @@ public class CashierHomeCreateBillPg extends JFrame {
 
 					BillDao bdao = new BillDaoImpl();
 					List<Bill> blist = bdao.getAllBills();
-					
+
 					boolean found = true;
 					for (Bill b : blist) {
 						int bnum = Integer.parseInt(billNoTxt.getText());
-						if(b.getBillNumber() == bnum) {
+						if (b.getBillNumber() == bnum) {
 							PrintBill pb = new PrintBill();
 							pb.setData(b);
 							pb.setVisible(true);
-							 found = true;
-							 break;
+							found = true;
+							break;
 						}
 					}
-					
-					if(found = false) {
+
+					if (found = false) {
 						JOptionPane.showMessageDialog(null, "First Save The Bill");
 					}
 				}
@@ -540,13 +540,13 @@ public class CashierHomeCreateBillPg extends JFrame {
 			btnNewButton_8.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					Bill bill = new Bill();
+					StockDao sdao = new StockDaoImpl();
 					bill.setBillNumber(Integer.parseInt(billNoTxt.getText()));
 					bill.setCustomerName(customerNameTxt.getText());
 					String date = dateChooser.getDate().toString();
 					bill.setDate(date);
 					bill.setTotalAmount(Double.parseDouble(totalTxt.getText()));
 
-					StockDao sdao = new StockDaoImpl();
 					DefaultTableModel model = (DefaultTableModel) table.getModel();
 					int rows = model.getRowCount();
 
@@ -581,9 +581,14 @@ public class CashierHomeCreateBillPg extends JFrame {
 	void setData(int productId) {
 		StockDao sdao = new StockDaoImpl();
 		StockModel s = sdao.getProductDetailsById(productId);
+		if (s.getProductAvailable() < 1) {
+			JOptionPane.showMessageDialog(null, "You can not make a bill of Product which is already finished");
+			return;
+		}
 		productMrpTxt.setText(Double.toString(s.getProductMrp()));
 		productNameTxt.setText(s.getProductName());
 	}
+
 	private JLabel getLblNewLabel_10() {
 		if (lblNewLabel_10 == null) {
 			lblNewLabel_10 = new JLabel("Save the bill first to print! ");
@@ -591,6 +596,7 @@ public class CashierHomeCreateBillPg extends JFrame {
 		}
 		return lblNewLabel_10;
 	}
+
 	private JLabel getLblNewLabel_11() {
 		if (lblNewLabel_11 == null) {
 			lblNewLabel_11 = new JLabel("Else it will not print!");

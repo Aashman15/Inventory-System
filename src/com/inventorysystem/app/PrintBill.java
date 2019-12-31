@@ -1,6 +1,5 @@
 package com.inventorysystem.app;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Image;
 
@@ -29,8 +28,6 @@ public class PrintBill extends JFrame {
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_2;
-	private JLabel billNumlbl;
-	private JLabel nameLbl;
 	private JTextField billNoTxt;
 	private JTextField cnameTxt;
 	private JTextField goodsTxt;
@@ -38,6 +35,7 @@ public class PrintBill extends JFrame {
 	private JLabel lblNewLabel_4;
 	private JTextField totalTxt;
 	private JButton btnNewButton;
+	private JButton btnNewButton_1;
 
 	/**
 	 * Launch the application.
@@ -76,6 +74,7 @@ public class PrintBill extends JFrame {
 		contentPane.add(getLblNewLabel_4());
 		contentPane.add(getTotalTxt());
 		contentPane.add(getBtnNewButton());
+		contentPane.add(getBtnNewButton_1());
 	}
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
@@ -177,8 +176,25 @@ public class PrintBill extends JFrame {
 					JOptionPane.showMessageDialog(null, "Printing is not available for now!");
 				}
 			});
-			btnNewButton.setBounds(22, 200, 102, 46);
+			btnNewButton.setBounds(78, 200, 102, 46);
 		}
 		return btnNewButton;
+	}
+	private JButton getBtnNewButton_1() {
+		if (btnNewButton_1 == null) {
+			btnNewButton_1 = new JButton("");
+			btnNewButton_1.setBackground(Color.WHITE);
+			Image salesLogo = new ImageIcon(this.getClass().getResource("/remove.png")).getImage();
+			btnNewButton_1.setIcon(new ImageIcon(salesLogo));
+			Border emptyBorder = BorderFactory.createEmptyBorder();
+			btnNewButton_1.setBorder(emptyBorder);
+			btnNewButton_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
+			btnNewButton_1.setBounds(22, 200, 46, 46);
+		}
+		return btnNewButton_1;
 	}
 }

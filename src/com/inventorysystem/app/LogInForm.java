@@ -19,6 +19,7 @@ import java.awt.Color;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class LogInForm extends JFrame {
@@ -84,8 +85,9 @@ public class LogInForm extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				WelcomeForm wf = new WelcomeForm();
-				wf.setVisible(true);
-				dispose();
+					wf.setVisible(true);
+					dispose();
+				
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 18));
